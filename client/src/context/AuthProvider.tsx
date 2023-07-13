@@ -1,11 +1,7 @@
-import axios, { AxiosError } from 'axios'
+import { AxiosError } from 'axios'
 import { ReactNode, createContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
-type JSONResponse = {
-  token: string
-  message: string
-}
+import authService, { AuthResponse } from '../services/auth-service'
 
 type AuthContextType = {
   token: string
@@ -17,8 +13,10 @@ type AuthContextType = {
   signOut: () => void
 }
 
+// Context
 export const AuthContext = createContext<AuthContextType | null>(null)
 
+// Provider
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string>(
     () => localStorage.getItem('token') || ''
@@ -34,10 +32,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [token])
 
   const signUp = async (email: string, password: string) => {
-    setIsLoading(true)
-    const url = 'http://localhost:3000/api/v1/auth/sign-up'
     try {
-      const response = await axios.post<JSONResponse>(url, { email, password })
+      setIsLoading(true)
+      const response = await authService.signUp(email, password)
       setToken(response.data.token)
       setError('')
       setIsError(false)
@@ -48,7 +45,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setError(err.message)
       }
       if (err instanceof AxiosError) {
-        const data = err.response?.data as JSONResponse
+        const data = err.response?.data as AuthResponse
         const _error = data?.message || (data as unknown as string)
         setError(_error)
       }
@@ -59,10 +56,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const signIn = async (email: string, password: string) => {
-    setIsLoading(true)
-    const url = 'http://localhost:3000/api/v1/auth/sign-in'
     try {
-      const response = await axios.post<JSONResponse>(url, { email, password })
+      setIsLoading(true)
+      const response = await authService.signIn(email, password)
       setToken(response.data.token)
       setError('')
       setIsError(false)
@@ -73,7 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setError(err.message)
       }
       if (err instanceof AxiosError) {
-        const data = err.response?.data as JSONResponse
+        const data = err.response?.data as AuthResponse
         const _error = data?.message || (data as unknown as string)
         setError(_error)
       }

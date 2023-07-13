@@ -65,7 +65,6 @@ const UserModal = ({ user, onSave }: IUserModal) => {
                   }
                 />
               </FormControl>
-
               <FormControl mt={4} isRequired={true}>
                 <FormLabel>Password</FormLabel>
                 <Input
@@ -76,7 +75,6 @@ const UserModal = ({ user, onSave }: IUserModal) => {
                   }
                 />
               </FormControl>
-
               <FormControl mt={4} isRequired={true}>
                 <FormLabel>Confirm Password</FormLabel>
                 <Input
@@ -87,7 +85,6 @@ const UserModal = ({ user, onSave }: IUserModal) => {
                   }
                 />
               </FormControl>
-
               <FormControl mt={4}>
                 <FormLabel>First Name</FormLabel>
                 <Input
@@ -98,7 +95,6 @@ const UserModal = ({ user, onSave }: IUserModal) => {
                   }
                 />
               </FormControl>
-
               <FormControl mt={4}>
                 <FormLabel>Last Name</FormLabel>
                 <Input
@@ -109,7 +105,6 @@ const UserModal = ({ user, onSave }: IUserModal) => {
                   }
                 />
               </FormControl>
-
               <FormControl mt={4}>
                 <FormLabel>Full Name</FormLabel>
                 <Input
@@ -129,7 +124,6 @@ const UserModal = ({ user, onSave }: IUserModal) => {
                 Password must match
               </Alert>
             )}
-
             <Button colorScheme="blue" mr={3} onClick={handleSave}>
               Save
             </Button>
