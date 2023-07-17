@@ -20,7 +20,7 @@ const SignIn = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const { error, isError, isLoading, signIn } = useAuth()
+  const { error, isError, isLoading, signIn, clearError } = useAuth()
 
   const handleChange = (event: ChangeEvent) => {
     const { name, value } = event.target as HTMLInputElement
@@ -31,6 +31,7 @@ const SignIn = () => {
   const handleReset = () => {
     setEmail('')
     setPassword('')
+    clearError()
   }
 
   const handleSubmit = (event: FormEvent) => {
@@ -66,7 +67,7 @@ const SignIn = () => {
                 />
               </FormControl>
               {isError && (
-                <Alert status="error">
+                <Alert status="error" borderRadius="md">
                   <AlertIcon />
                   {error}
                 </Alert>

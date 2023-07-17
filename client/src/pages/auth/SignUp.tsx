@@ -20,7 +20,7 @@ const SignUp = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
-  const { error, isError, isLoading, signUp } = useAuth()
+  const { error, isError, isLoading, signUp, clearError } = useAuth()
 
   const handleChange = (event: ChangeEvent) => {
     const { name, value } = event.target as HTMLInputElement
@@ -33,6 +33,7 @@ const SignUp = () => {
     setEmail('')
     setPassword('')
     setConfirmPassword('')
+    clearError()
   }
 
   const handleSubmit = (event: FormEvent) => {
@@ -77,13 +78,13 @@ const SignUp = () => {
                 />
               </FormControl>
               {password !== confirmPassword && (
-                <Alert status="error">
+                <Alert status="error" borderRadius="md">
                   <AlertIcon />
                   Password must match
                 </Alert>
               )}
               {isError && (
-                <Alert status="error">
+                <Alert status="error" borderRadius="md">
                   <AlertIcon />
                   {error}
                 </Alert>

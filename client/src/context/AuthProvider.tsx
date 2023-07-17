@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import { ReactNode, createContext, useEffect, useState } from 'react'
+import { ReactNode, createContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import authService, { AuthResponse } from '../services/auth-service'
 
@@ -11,6 +11,7 @@ type AuthContextType = {
   signUp: (email: string, password: string) => Promise<void>
   signIn: (email: string, password: string) => Promise<void>
   signOut: () => void
+  clearError: () => void
 }
 
 // Context
@@ -27,14 +28,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    localStorage.setItem('token', token)
-  }, [token])
-
   const signUp = async (email: string, password: string) => {
     try {
       setIsLoading(true)
       const response = await authService.signUp(email, password)
+      localStorage.setItem('token', response.data.token)
       setToken(response.data.token)
       setError('')
       setIsError(false)
@@ -59,6 +57,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       setIsLoading(true)
       const response = await authService.signIn(email, password)
+      localStorage.setItem('token', response.data.token)
       setToken(response.data.token)
       setError('')
       setIsError(false)
@@ -84,6 +83,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     navigate('/sign-out')
   }
 
+  const clearError = () => {
+    setError('')
+    setIsError(false)
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -93,7 +97,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         isLoading,
         signUp,
         signIn,
-        signOut
+        signOut,
+        clearError
       }}
     >
       {children}
